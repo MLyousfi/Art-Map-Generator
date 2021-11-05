@@ -2,10 +2,13 @@
   "name": "art-map-generator",
   "version": "1.0.1",
   "description": "A solution to generate MapArt for Minecraft",
+  "repository": "https://github.com/MLyousfi/Art-Map-Generator.git",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "pack": "electron-builder --dir",
+    "gh-publisher": "electron-builder -p always"
   },
   "author": "Half-Shield",
   "license": "ISC",
@@ -18,7 +21,8 @@
   },
   "devDependencies": {
     "electron": "^12.0.0",
-    "electron-builder": "^22.13.1"
+    "electron-builder": "^22.13.1",
+    "electron-updater": "^4.3.9"
   },
   "build": {
     "appId": "com.halfshield.artmapgenerator",
@@ -32,6 +36,9 @@
       "perMachine": false,
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true
+    },
+    "win": { 
+      "publish": ["github"] 
     }
   }
 }
