@@ -1,0 +1,87 @@
+<div id="imageEditor">
+    <div id="preview" ng-mouseenter="showControl = true" ng-mouseleave="showControl = false" >
+       <img id="imgElement" ng-src="{{imagePath}}"/> 
+        <div id="imageControlls" class="imageControlls" ng-show="showControl">
+            <div class="control" ng-click="deleteFile()">
+                Delete
+            </div>
+            <div class="control" ng-click="changeFile()">
+                Change
+            </div>
+        </div>
+    </div>
+    <div id="imageOptions">
+        <div id="imageInfo">
+            <img id="imgInfo" ng-src="{{imagePath}}"/>
+            <div id="infos">
+                <div id="InfoTitle">Name : </div>
+                <div id="InfoBinding">{{imageName}}</div>
+                <div id="InfoTitle">Size : </div>
+                <div id="InfoBinding">{{imagesWidth}}X{{imagesHeight}}</div>
+            </div> 
+        </div>
+        <div id="optionContainer">
+            <div id="radioContainer">
+                <input type="radio" ng-model="useCoor" value="true" name="size" id="small" >
+                <label for="small">use coordination</label>
+                <input type="radio" ng-model="useCoor" value="false" name="size" id="large">
+                <label for="large">simple</label>
+            </div>
+            <div id="coorBox"  ng-class="appliedClass(useCoor)" >
+                <div id="inputSection" ng-class="appliedClass(useCoor)">
+                    <div id="inputContainer" style="justify-content: flex-start;">
+                        <input type="number" id="x1" ng-model="coordinations.x1"> 
+                        <p style="padding-left: 5px;">: X</p>
+                    </div>
+                    <div id="inputContainer" style="justify-content: flex-end;">
+                        <p style="padding-right: 5px;">Y :</p>
+                        <input type="number" id="y1" ng-model="coordinations.y1">
+                        
+                    </div>
+                </div>
+                <div id="inputSection" ng-class="appliedClass(useCoor)" >
+                    <div id="inputContainer" style="justify-content: flex-start;">
+                        <input type="number" id="x2" ng-model="coordinations.x2"> 
+                        <p style="padding-left: 5px;">: X'</p>
+                    </div>
+                    <div id="inputContainer" style="justify-content: flex-end;">
+                        <p style="padding-right: 5px;">Y' :</p>
+                        <input type="number" id="y2" ng-model="coordinations.y2">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="dropdownConainter">
+                <p style="margin-top: 10px;">Chunks size : </p>
+                <div class="dropdown" >
+                    <div class="dropdown-select">
+                        <span class="select" >
+                            {{selectedSize}}
+                        </span>
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                    
+                    <div class="dropdown-list">
+                        <div class="dropdown-list__item" ng-click="setSelectedSize(1)">128 X 128</div>
+                        <div class="dropdown-list__item" ng-click="setSelectedSize(2)">256 X 256</div>
+                        <div class="dropdown-list__item" ng-click="setSelectedSize(3)">384 X 384</div>
+                        <div class="dropdown-list__item" ng-click="setSelectedSize(4)">512 X 256</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="actionbtn">
+                <div class="progress" ng-show='showProgress'>
+                    <div class="progressContainer">
+                        <div id='progressBar' class="progressBar"></div>
+                    </div>
+                    <div id='progressBarIndicator' class="progressBarIndicator"></div>
+                </div>
+               
+                <button id="generate" ng-disabled="disable" ng-bind ="actionName" ng-click="handleGenerate()">
+                    
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

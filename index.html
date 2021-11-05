@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  
+  <link rel="stylesheet" href="./styling/style.css">
+  <link rel="stylesheet" href="./fontAwesome/css/all.min.css">
+  <link rel="stylesheet" href="./fontAwesome/css/fontawesome.min.css">
+  <script src="./angularjs/angular.min.js"></script>
+  <script src="./angularjs/angular-route.min.js"></script>
+</head>
+<body>
+  <div id="content">
+    <header ng-controller="headCtrl">
+      <div class="logoSection">
+        <img src="./images/logo.png" class="logoImg">
+        <h1 class="title" >Art Map Generator</h1>
+      </div>
+      <div class="btnOption">
+        <div class="option o1" ng-click="close()">&#x2716;</div>
+        <div class="option o2" ng-click="maximize()">&#x1f5d6;</div>
+        <div class="option o3" ng-click="minimize()">&#x1f5d5;</div>
+      </div>
+      <div id='alert' class="alert">
+        <span class="fas fa-exclamation-circle"></span>
+        <span id='alert_msg' class="msg">Warning : This is a warning alert!</span>
+        <span class="close-btn" onclick="closeAlert()">
+          <span class="fas fa-times"></span>
+        </span>
+
+      </div>
+    </header>
+    <div id="mainContent" ng-view></div>
+  </div>
+  <script src="./script/colorCalculation.js"></script>
+  <script src="./script/script.js"></script>
+  <script src="./script/common.js"></script>
+  <script src="./script/DragAndDrop.js"></script>
+  
+</body>
+</html>

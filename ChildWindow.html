@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  
+  <link rel="stylesheet" href="./styling/MineCraftIcons/IconStyle.css">
+  <link rel="stylesheet" href="./styling/style.css">
+  <link rel="stylesheet" href="./fontAwesome/css/all.min.css">
+  <link rel="stylesheet" href="./fontAwesome/css/fontawesome.min.css">
+  <script src="./angularjs/angular.min.js"></script>
+  <script src="./angularjs/angular-route.min.js"></script>
+</head>
+<body>
+  <div id="content">
+    <header ng-controller="headCtrl">
+      <div class="logoSection">
+        <img src="./images/logo.png" class="logoImg">
+        <h1 class="title" >Art Map Generator</h1>
+        
+      </div>
+      <div class="coordinations">
+        <div class='title' id='coor'></div>
+
+      </div>
+      <div class="btnOption">
+        <div class="option o1" ng-click="close()">&#x2716;</div>
+        <div class="option o2" ng-click="maximize()">&#x1f5d6;</div>
+        <div class="option o3" ng-click="minimize()">&#x1f5d5;</div>
+      </div>
+      <div id='alert' class="alert">
+        <span class="fas fa-exclamation-circle"></span>
+        <span id='alert_msg' class="msg">Warning : This is a warning alert!</span>
+        <span class="close-btn" onclick="closeAlert()">
+          <span class="fas fa-times"></span>
+        </span>
+
+      </div>
+      <div id="botSection" class="botSection">
+        <div class="botHeader">
+          <span class="close-btn" onclick="closeBotSection()">
+            <span class="dark fas fa-times"></span>
+          </span>
+        </div>
+
+        <div class="botContent">
+          <input id="host" type="text" placeholder="localhost" value="localhost">
+          <input id="port" type="number" placeholder="port" >
+          <input id="username" type="text" placeholder="username">
+          <input id="password" type="password" placeholder="password">
+          
+          <div class="bot-btn custom" onclick="StartBot()">
+            <span>Launch</span>
+            <span class="fas fa-robot"></span>
+          </div>
+        </div>
+      </div>
+
+     
+    </header>
+    
+    <div id="mainContent">
+      
+          <div class="imagePreview">
+
+            <canvas id="canvas"></canvas> 
+          </div>
+        
+        
+            
+       
+        <div class="optionpreview">
+          <div id="itemIndicator">
+            <div id="chestBtn" >
+              <i class="icon-minecraft icon-minecraft-chest"></i>
+              <span>Chest</span>
+            </div>
+            <div id="smallIndicator">
+              
+              <div class="itemsRow">
+                <i id="ItemIcon" class="icon-minecraft icon-minecraft-cyan-concrete"></i>
+                <div id="itemName">
+                  
+                </div>
+              </div>
+              <div id="seeAllBtn" onclick="expandChest()">
+                See All
+              </div>
+            </div>
+            <div id="ItemsTableContainer">
+              <div class="tableHeader">
+                <div id="ItemsTitle"> Items </div>
+                <div class="collapseBtn" onclick="expandChest()">
+                  <i class="fas fa-compress-arrows-alt"></i>
+                </div>
+                
+              </div>
+              
+                <div id="ItemTableContent">
+                  <div id="ItemsShower">
+                    <div class="itemsRow">
+                      <span id="ItemId">1</span>
+                      <i id="ItemIcon" class="icon-minecraft icon-minecraft-cyan-concrete"></i>
+                      <div id="itemName">
+                        Cyan Concrete
+                      </div>
+                    </div>
+                    <div class="NumberRow">
+                      3021
+                    </div>
+                  </div>
+                  <div id="ItemsShower">
+                    <div class="itemsRow">
+                      <span id="ItemId">2</span>
+                      <i id="ItemIcon" class="icon-minecraft icon-minecraft-cyan-concrete"></i>
+                      <div id="itemName">
+                        Cyan Concrete
+                      </div>
+                    </div>
+                    <div class="NumberRow">
+                      3021
+                    </div>
+                  </div>
+                </div>
+             
+              
+            
+          </div>
+            
+          </div>
+          <span class='btn btn-1'>
+            <input type="checkbox" class="originalMinecraft" onclick="changeColors(this.checked)" id="switch_1" checked>
+            <label  for="switch_1"></label>
+          </span>
+          <span id="standardAdvance" class='btn btn-1 hide'>
+            <input type="checkbox" class="standardAdvance" onclick="SwitchColorsType(this.checked)" id="switch_2" checked>
+            <label  for="switch_2"></label>
+          </span>
+          
+          
+          <div class="bot-btn" onclick="ShowBotSection()">
+            <span>BotCraft</span>
+            <span class="fas fa-robot"></span>
+          </div>
+        </div>
+
+    </div>
+  </div>
+  <script src="./script/colorCalculation.js"></script>
+    <script src="./script/renderer.js"></script>
+    <script src="./script/bot.js"></script>
+    <script src="./script/common.js"></script>
+
+</body>
+</html>
+
+
+ 

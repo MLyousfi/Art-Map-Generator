@@ -1,0 +1,32 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "runtimeArgs": [
+                "--enable-logging"
+            ],
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Program",
+            "args" : [],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\main.js",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "NODE_ENV" : "development"
+            },
+            "externalConsole" : false,
+            "sourceMaps": true,
+            "outDir" : null
+            
+        }
+    ]
+}
