@@ -13,7 +13,7 @@ const defaultStages = {
 
 const updateOptions = {
     gitRepo: "Art-Map-Generator", // [Required] Your Repo Name
-    gitUsername: "Marouane Lyousfi",  // [Required] Your GitHub Username.
+    gitUsername: "MLyousfi",  // [Required] Your GitHub Username.
 
 
     appName: "art-map-generator", //[Required] The Name of the app archive and the app folder.
@@ -25,4 +25,9 @@ const updateOptions = {
     stageTitles: defaultStages, // {Default is defaultStages} [Optional] Sets the Status Title for Each Stage
 };
 
-uaup.Update(updateOptions);
+let isUpdateAvalible = uaup.CheckForUpdates(updateOptions);
+
+if(isUpdateAvalible){
+    uaup.Update(updateOptions);
+}
+
