@@ -38,7 +38,15 @@
       "allowToChangeInstallationDirectory": true
     },
     "win": { 
-      "publish": ["github"] 
+      "publish": [
+        {
+          "provider": "github",
+          "owner": "MLyousfi",
+          "repo": "Art-Map-Generator",
+          "token": "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"
+        }
+      ] 
     }
+    
   }
 }
