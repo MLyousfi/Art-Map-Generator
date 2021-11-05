@@ -1,13 +1,13 @@
 {
   "name": "art-map-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A solution to generate MapArt for Minecraft",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
-  "author": "Marouane Lyousfi | Anouar Ziane",
+  "author": "Half-Shield",
   "license": "ISC",
   "dependencies": {
     "jquery": "^3.6.0",
