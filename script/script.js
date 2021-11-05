@@ -145,7 +145,7 @@ app.controller('homeCtrl', function ($scope, $location, image){
 
 app.controller('headCtrl', function($scope) {
 	var win = remote.getCurrentWindow();
-
+    $scope.version = require('electron').remote.app.getVersion();
 	$scope.close = function() {
 		win.close();
         

@@ -12,14 +12,17 @@ const defaultStages = {
 
 
 const updateOptions = {
-    gitRepo: "uaup-js", // [Required] Your Repo Name
-    gitUsername: "billy123",  // [Required] Your GitHub Username.
-
-    appName: "uaup-js", //[Required] The Name of the app archive and the app folder.
-    appExecutableName: "UAUP JS.exe", //[Required] The Executable of the Application to be Run after updating.
+    gitRepo: "Art-Map-Generator", // [Required] Your Repo Name
+    gitUsername: "Marouane Lyousfi",  // [Required] Your GitHub Username.
 
 
-    progressBar: null, // {Default is null} [Optional] If Using Electron with a HTML Progressbar, use that element here, otherwise ignore
-    label: null, // {Default is null} [Optional] If Using Electron, this will be the area where we put status updates using InnerHTML
+    appName: "art-map-generator", //[Required] The Name of the app archive and the app folder.
+    appExecutableName: "art-map-generator.exe", //[Required] The Executable of the Application to be Run after updating.
+
+
+    progressBar: document.getElementById('update'), // {Default is null} [Optional] If Using Electron with a HTML Progressbar, use that element here, otherwise ignore
+    label: document.getElementById('update-label'), // {Default is null} [Optional] If Using Electron, this will be the area where we put status updates using InnerHTML
     stageTitles: defaultStages, // {Default is defaultStages} [Optional] Sets the Status Title for Each Stage
 };
+
+uaup.Update(updateOptions);

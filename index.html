@@ -17,6 +17,11 @@
         <img src="./images/logo.png" class="logoImg">
         <h1 class="title" >Art Map Generator</h1>
       </div>
+      <div>{{version}}</div>
+      <span class="updaterSection">
+        <label for="update" id="update-label">Updater</label>
+        <progress id="update" max="100" value="20"></progress>
+      </span>
       <div class="btnOption">
         <div class="option o1" ng-click="close()">&#x2716;</div>
         <div class="option o2" ng-click="maximize()">&#x1f5d6;</div>
@@ -33,6 +38,7 @@
     </header>
     <div id="mainContent" ng-view></div>
   </div>
+  <script src="./script/updater.js"></script>
   <script src="./script/colorCalculation.js"></script>
   <script src="./script/script.js"></script>
   <script src="./script/common.js"></script>

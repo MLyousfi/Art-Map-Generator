@@ -645,6 +645,16 @@ div#progressBarIndicator {
      
  }
  
+
+ /*----Update---*/
+
+ span.updaterSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 20%;
+}
+
  /********child windows ******/
 .optionpreview {
     flex-direction: column;

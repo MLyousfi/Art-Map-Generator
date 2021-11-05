@@ -63,7 +63,6 @@ app.on('activate', () => {
 
 let createSecondWindow = (data) =>
 {
-   
     secondWindow = new BrowserWindow({
         width : 800,
         height : 600,
