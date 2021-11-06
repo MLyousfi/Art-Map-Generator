@@ -8,7 +8,9 @@
     "start": "electron .",
     "dist": "electron-builder",
     "pack": "electron-builder --dir",
-    "gh-publisher": "electron-builder -p always"
+    "gh-publisher": "electron-builder -p always",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
   },
   "author": "Half-Shield",
   "license": "ISC",
