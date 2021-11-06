@@ -1,7 +1,7 @@
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
-const {autoUpdater} = require('electron-updater');
+const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 
 // configure logging
