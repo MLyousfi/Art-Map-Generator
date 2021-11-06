@@ -1,6 +1,6 @@
 {
   "name": "art-map-generator",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "A solution to generate MapArt for Minecraft",
   "repository": "https://github.com/MLyousfi/Art-Map-Generator.git",
   "main": "main.js",
@@ -13,6 +13,7 @@
   "author": "Half-Shield",
   "license": "ISC",
   "dependencies": {
+    "electron-log": "^4.4.1",
     "jquery": "^3.6.0",
     "mineflayer": "^3.11.2",
     "mineflayer-pathfinder": "^1.8.0",
@@ -25,7 +26,6 @@
     "electron-updater": "^4.3.9"
   },
   "build": {
-    "appId": "com.halfshield.artmapgenerator",
     "productName": "ArtMap Generator",
     "target": "NSIS",
     "directories": {
@@ -36,16 +36,6 @@
       "perMachine": false,
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true
-    },
-    "win": { 
-      "publish": [
-        {
-          "provider": "github",
-          "owner": "MLyousfi",
-          "repo": "Art-Map-Generator",
-          "token": "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"
-        }
-      ] 
     }
     
   }
