@@ -3,11 +3,8 @@ const url = require('url');
 const path = require('path');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+const { dialog } = require('electron')
 
-// configure logging
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
-log.info('App starting...');
 
 const {app ,contextBridge , BrowserWindow,Menu , ipcMain} = electron;
 
@@ -25,13 +22,12 @@ let boot = () => {
         });
     
         //load html file into the window
-        mainWindow.loadFile('./index.html')
+        mainWindow.loadFile('./app/html/index.html')
         mainWindow.webContents.openDevTools();
         mainWindow.on('closed',function(){
             app.quit();
         })
-        mainWindow.once('ready-to-show', () => {
-          console.log('refe');
+        mainWindow.once('ready-to-show', function ()  {
           autoUpdater.checkForUpdatesAndNotify();
         });
     
@@ -50,8 +46,6 @@ app.on('window-all-closed', () => {
 var globlData = null;
 
 ipcMain.on('render-data:add', (event, data)=> {
-  
-  
   globlData = data;
   createSecondWindow(data);
 
@@ -83,7 +77,7 @@ let createSecondWindow = (data) =>
             contextIsolation : false
         }
     });
-    secondWindow.loadFile('./ChildWindow.html');
+    secondWindow.loadFile('./app/html/ChildWindow.html');
     secondWindow.webContents.openDevTools();
     secondWindow.once('ready-to-show', () => {
       secondWindow.show()
@@ -106,6 +100,8 @@ const sendStatusToWindow = (text) => {
 };
 
 autoUpdater.on('update-available', () => {
+  
+  dialog.showMessageBox({message :"Hello"})
   mainWindow.webContents.send('update_available');
 });autoUpdater.on('update-downloaded', () => {
   mainWindow.webContents.send('update_downloaded');
