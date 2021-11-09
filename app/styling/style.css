@@ -650,23 +650,32 @@ div#progressBarIndicator {
  #notification {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    right: 20px;
     width: 200px;
     padding: 20px;
     border-radius: 5px;
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: var(--pink);
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    z-index: 100;
+    overflow: hidden;
   }
   .hidden {
     display: none;
   }
-
- span.updaterSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 20%;
+  p#message {
+    font-size: 0.8rem;
+    margin: 5px;
 }
+div#progressingContainer {
+    /* background: red; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 10px;
+    background-color: var(--green);
+}
+
+
 
  /********child windows ******/
 .optionpreview {

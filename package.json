@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MLyousfi/Art-Map-Generator.git" 
+    "url": "https://github.com/MLyousfi/Art-Map-Generator.git"
   },
   "author": {
     "name": "Half-Shield",
@@ -27,17 +27,16 @@
   "homepage": "https://github.com/MLyousfi/Art-Map-Generator#README.md",
   "dependencies": {
     "electron-log": "^4.4.1",
+    "electron-notarize": "^1.1.1",
+    "electron-updater": "^4.3.9",
     "jquery": "^3.6.0",
     "mineflayer": "^3.11.2",
     "mineflayer-pathfinder": "^1.8.0",
     "mineflayer-web-inventory": "^1.6.3",
-    "uaup-js": "^0.0.22",
-    "electron-updater": "^4.3.9"
+    "uaup-js": "^0.0.22"
   },
   "devDependencies": {
     "electron": "^12.0.0",
     "electron-builder": "^22.13.1"
-    
   }
-  
 }

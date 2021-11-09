@@ -423,7 +423,9 @@ function processing_step_one(data , $scope)
 /***update */
 const notification = document.getElementById('notification');
 const messageUpdate = document.getElementById('message');
-const restartButton = document.getElementById('restart-button');ipcRenderer.on('update_available', () => {
+const restartButton = document.getElementById('restart-button');
+const progress = document.getElementById('progressingContainer');
+ipcRenderer.on('update_available', () => {
   ipcRenderer.removeAllListeners('update_available');
   messageUpdate.innerText = 'A new update is available. Downloading now...';
   notification.classList.remove('hidden');
@@ -434,6 +436,9 @@ ipcRenderer.on('update_downloaded', () => {
   restartButton.classList.remove('hidden');
   notification.classList.remove('hidden');
 });
+ipcRenderer.on('download_percent' , (e,message) => {
+    console.log("percent  : " ,100-message);
+})
 
 function closeNotification() {
     notification.classList.add('hidden');

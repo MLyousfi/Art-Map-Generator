@@ -5,7 +5,7 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const { dialog } = require('electron')
 
-
+autoUpdater.autoInstallOnAppQuit = true;
 const {app ,contextBridge , BrowserWindow,Menu , ipcMain} = electron;
 
 let mainWindow,secondWindow;
@@ -101,9 +101,15 @@ const sendStatusToWindow = (text) => {
 
 autoUpdater.on('update-available', () => {
   
-  dialog.showMessageBox({message :"Hello"})
+  
   mainWindow.webContents.send('update_available');
-});autoUpdater.on('update-downloaded', () => {
+});
+autoUpdater.on('download-progress', progressObj => {
+    
+    mainWindow.webContents.send('download_percent' , {progressObj});
+  });
+
+autoUpdater.on('update-downloaded', () => {
   mainWindow.webContents.send('update_downloaded');
 });
 autoUpdater.on('update-not-available', info => {
