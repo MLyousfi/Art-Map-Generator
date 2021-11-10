@@ -106,7 +106,8 @@ autoUpdater.on('update-available', () => {
 });
 autoUpdater.on('download-progress', progressObj => {
     
-    mainWindow.webContents.send('download_percent' , {progressObj});
+  let percentage = progressObj.percent; 
+    mainWindow.webContents.send('download_percent' , {percentage});
   });
 
 autoUpdater.on('update-downloaded', () => {

@@ -437,8 +437,8 @@ ipcRenderer.on('update_downloaded', () => {
   notification.classList.remove('hidden');
 });
 ipcRenderer.on('download_percent' , (e,message) => {
-    let percentage = 100 - message.percent;
-    console.log("percent  : " ,message ,message.percent,percentage);
+    let percentage = 100 - message;
+    console.log("percent  : " ,message ,percentage);
     progress.style.right  = percentage + '%';
 })
 
