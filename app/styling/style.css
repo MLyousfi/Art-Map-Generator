@@ -674,6 +674,14 @@ div#progressingContainer {
     height: 10px;
     background-color: var(--green);
 }
+div#notification> button {
+    /* background-color: var(--green); */
+    /* background-color: violet; */
+    background-color: var(--green);
+    padding: 5px;
+    border: 0;
+    border-radius: 5px;
+}
 
 
 
