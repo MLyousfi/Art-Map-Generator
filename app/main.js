@@ -5,6 +5,11 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const { dialog } = require('electron')
 
+autoUpdater.logger = log;
+
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');  
+
 autoUpdater.autoInstallOnAppQuit = true;
 const {app ,contextBridge , BrowserWindow,Menu , ipcMain} = electron;
 
@@ -106,9 +111,10 @@ autoUpdater.on('update-available', () => {
 });
 autoUpdater.on('download-progress', progressObj => {
     
-  let message = "A new update is available";
-  message += `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
-    mainWindow.webContents.send('download_percent' , {message});
+  let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    sendStatusToWindow(log_message);
   });
 
 autoUpdater.on('update-downloaded', () => {

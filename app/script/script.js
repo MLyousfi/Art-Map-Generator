@@ -436,7 +436,7 @@ ipcRenderer.on('update_downloaded', () => {
   restartButton.classList.remove('hidden');
   notification.classList.remove('hidden');
 });
-ipcRenderer.on('download_percent' , (e,message) => {
+ipcRenderer.on('message' , (e,message) => {
     messageUpdate.innerText = message;
     console.log("percent is : ",message);
 })
