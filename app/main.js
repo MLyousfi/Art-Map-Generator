@@ -106,8 +106,9 @@ autoUpdater.on('update-available', () => {
 });
 autoUpdater.on('download-progress', progressObj => {
     
-  let percentage = progressObj.percent; 
-    mainWindow.webContents.send('download_percent' , {percentage});
+  let message = "A new update is available";
+  message += `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
+    mainWindow.webContents.send('download_percent' , {message});
   });
 
 autoUpdater.on('update-downloaded', () => {
