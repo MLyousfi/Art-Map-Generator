@@ -438,7 +438,7 @@ ipcRenderer.on('update_downloaded', () => {
 });
 ipcRenderer.on('download_percent' , (e,message) => {
     let percentage = 100 - message;
-    console.log("percent  : " ,message ,percentage);
+    console.log("percent  : ",100-message ,message ,percentage);
     progress.style.right  = percentage + '%';
 })
 
