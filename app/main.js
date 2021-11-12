@@ -110,10 +110,13 @@ autoUpdater.on('update-available', () => {
   mainWindow.webContents.send('update_available');
 });
 autoUpdater.on('download-progress', progressObj => {
-    
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    let speed = progressObj.bytesPerSecond / (8 * 1024);
+    let downloaded = progressObj.percent;
+    let transferred = progressObj.transferred / (8 * 1024);
+    let total = progressObj.total / (8 * 1024);
+  let log_message = "Download speed: " + speed.toFixed(2) + ' Ko/s';
+    log_message = log_message + ' - Downloaded ' + downloaded.toFixed(2) + '%';
+    log_message = log_message + ' (' + transferred.toFixed(2) + "/" + total.toFixed(2) + ') Ko';
     sendStatusToWindow(log_message);
   });
 
