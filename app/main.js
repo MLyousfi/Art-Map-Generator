@@ -112,11 +112,11 @@ autoUpdater.on('update-available', () => {
 autoUpdater.on('download-progress', progressObj => {
     let speed = progressObj.bytesPerSecond / (8 * 1024);
     let downloaded = progressObj.percent;
-    let transferred = progressObj.transferred / (8 * 1024);
-    let total = progressObj.total / (8 * 1024);
+    let transferred = progressObj.transferred / (8 * 1024 * 1024);
+    let total = progressObj.total / (8 * 1024 * 1024);
   let log_message = "Download speed: " + speed.toFixed(2) + ' Ko/s';
     log_message = log_message + ' - Downloaded ' + downloaded.toFixed(2) + '%';
-    log_message = log_message + ' (' + transferred.toFixed(2) + "/" + total.toFixed(2) + ') Ko';
+    log_message = log_message + ' - (' + transferred.toFixed(2) + "Mo/" + total.toFixed(2) + 'Mo)';
     sendStatusToWindow(log_message);
   });
 
