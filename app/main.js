@@ -97,10 +97,11 @@ let createSecondWindow = (data) =>
 //-------------------------------------------------------------------
 // Auto updates
 //-------------------------------------------------------------------
-const sendStatusToWindow = (text) => {
+const sendStatusToWindow = (text , percent = 0) => {
   log.info(text);
   if (mainWindow) {
-    mainWindow.webContents.send('message', text);
+    let data = {text : text, percent : percent}
+    mainWindow.webContents.send('message', {data});
   }
 };
 
@@ -117,7 +118,7 @@ autoUpdater.on('download-progress', progressObj => {
   let log_message = "Download speed: " + speed.toFixed(2) + ' Ko/s';
     log_message = log_message + ' - Downloaded ' + downloaded.toFixed(2) + '%';
     log_message = log_message + ' - (' + transferred.toFixed(2) + "Mo/" + total.toFixed(2) + 'Mo)';
-    sendStatusToWindow(log_message);
+    sendStatusToWindow(log_message,downloaded);
   });
 
 autoUpdater.on('update-downloaded', () => {
