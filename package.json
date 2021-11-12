@@ -1,6 +1,6 @@
 {
   "name": "art-map-generator",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A solution to generate MapArt for Minecraft",
   "main": "app/main.js",
   "scripts": {

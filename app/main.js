@@ -98,10 +98,11 @@ let createSecondWindow = (data) =>
 // Auto updates
 //-------------------------------------------------------------------
 const sendStatusToWindow = (text , percent = 0) => {
-  log.info(text);
+  let data = {text : text, percent : percent}
+  log.info(data);
   if (mainWindow) {
-    let data = {text : text, percent : percent}
-    mainWindow.webContents.send('message', {data});
+    
+    mainWindow.webContents.send('message', data);
   }
 };
 
