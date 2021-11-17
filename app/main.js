@@ -35,8 +35,10 @@ let boot = () => {
         mainWindow.once('ready-to-show', function ()  {
           autoUpdater.checkForUpdatesAndNotify();
         });
-    
+        mainWindow.maximize();
 }
+
+
 app.whenReady().then(boot)
   
 // Quit when all windows are closed.
@@ -86,11 +88,13 @@ let createSecondWindow = (data) =>
     secondWindow.webContents.openDevTools();
     secondWindow.once('ready-to-show', () => {
       secondWindow.show()
+      secondWindow.maximize();
     })
     secondWindow.webContents.once('dom-ready', () => {
       secondWindow.webContents.send('render:add', globlData);
     });
     secondWindow.on('closed', () => secondWindow = null)
+
     
 }
 
@@ -101,14 +105,11 @@ const sendStatusToWindow = (text , percent = 0) => {
   let data = {text : text, percent : percent}
   log.info(data);
   if (mainWindow) {
-    
     mainWindow.webContents.send('message', data);
   }
 };
 
 autoUpdater.on('update-available', () => {
-  
-  
   mainWindow.webContents.send('update_available');
 });
 autoUpdater.on('download-progress', progressObj => {

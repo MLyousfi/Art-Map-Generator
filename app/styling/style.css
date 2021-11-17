@@ -75,7 +75,7 @@ header {
     display:flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-end;
     padding-left: 5px;
 }
 .logoSection img {
@@ -544,7 +544,10 @@ div#InfoBinding{
 .dropdown-select span,.dropdown-select i {
     background-color:transparent;
 }
-
+h5.ng-binding {
+    padding-top: 5px;
+    padding-left: 5px;
+}
 .dropdown-list{
     width: 320px;
     border-radius: var(--border-Radius-btn);
@@ -694,6 +697,10 @@ div#notification> button {
     align-items: center;
     max-width: 400px;
     padding-top: 105px;
+}
+
+canvas#canvas{
+    box-shadow: 0px 0px 5px 2px var(--green);
 }
 
 div#itemIndicator
