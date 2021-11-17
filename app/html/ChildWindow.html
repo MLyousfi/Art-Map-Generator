@@ -27,6 +27,10 @@
         <div class="option o1" ng-click="close()">&#x2716;</div>
         <div class="option o2" ng-click="maximize()">&#x1f5d6;</div>
         <div class="option o3" ng-click="minimize()">&#x1f5d5;</div>
+        <button title="Buy as a coffee" class="donateBtn"  ng-click="donate()">
+          <i class="fas fa-donate"></i>
+          <div>Donate</div>
+        </button>
       </div>
       <div id='alert' class="alert">
         <span class="fas fa-exclamation-circle"></span>
@@ -44,7 +48,9 @@
         </div>
 
         <div class="botContent">
-          <input id="host" type="text" placeholder="localhost" value="localhost">
+          <h1>Coming Soon...</h1>
+          <h1>Stay tuned!! &#128521;</h1>
+          <!-- <input id="host" type="text" placeholder="localhost" value="localhost">
           <input id="port" type="number" placeholder="port" >
           <input id="username" type="text" placeholder="username">
           <input id="password" type="password" placeholder="password">
@@ -52,7 +58,7 @@
           <div class="bot-btn custom" onclick="StartBot()">
             <span>Launch</span>
             <span class="fas fa-robot"></span>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -64,6 +70,16 @@
           <div class="imagePreview">
 
             <canvas id="canvas"></canvas> 
+            <div class="helpSection">
+              <Button title="How to use ArtMap" class="helpSectionBtn helpBtn">
+                <i class="far fa-question-circle"></i>
+                <div>Help</div>
+              </Button>
+              <Button title="Reset image zoom and transition" class="helpSectionBtn resetBtn" onclick="reset()">
+                <i class="far fa-window-restore"></i>
+                <div>Reset Image</div>
+              </Button>
+            </div>
           </div>
         
         
@@ -138,10 +154,10 @@
           </span>
           
           
-          <div class="bot-btn" onclick="reset()/*showbotsection*/">
+          <Button title="Let a bot do your job" class="bot-btn" onclick="ShowBotSection()">
             <span>BotCraft</span>
             <span class="fas fa-robot"></span>
-          </div>
+          </Button>
         </div>
 
     </div>

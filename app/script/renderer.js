@@ -274,6 +274,7 @@ function onPointerMove(e)
         CheckMapBoundary();
     }else
     {
+     
       canvas.style.cursor = 'crosshair';
         
         var {x,y} = getTransformedPoint(e.offsetX, e.offsetY);//GetPositionWithTran(canvas,e);
@@ -585,6 +586,11 @@ function changeColors(checked)
 app.controller('headCtrl', function($scope) {
 	var win = remote.getCurrentWindow();
   $scope.version = require('electron').remote.app.getVersion();
+  $scope.donate = function() {
+    const shell = require('electron').shell;
+    shell.openExternal("https://www.half-shield.com")
+        
+    };
 	$scope.close = function() {
 		win.close();
         
