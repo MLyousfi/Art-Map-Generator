@@ -146,11 +146,7 @@ app.controller('homeCtrl', function ($scope, $location, image){
 app.controller('headCtrl', function($scope) {
 	var win = remote.getCurrentWindow();
     $scope.version = require('electron').remote.app.getVersion();
-	$scope.donate = function() {
-        const shell = require('electron').shell;
-		shell.openExternal("https://www.half-shield.com")
-        
-	};
+	
 	$scope.close = function() {
 		win.close();
         
@@ -173,36 +169,44 @@ function check(string) {
 
 
 
+
 app.controller('editCtrl', function($scope,$rootScope,$location,$log,image ,Constants ) {
 	$scope.imagePath = image.getImagePath();
     $scope.imageName = check(image.getImageName());
-    $scope.actionName = 'Generate';
-    $scope.showProgress = false;
+    
     
     $scope.useCoor = 'false';
-    $scope.disable = false;
     $scope.selectedSize = Constants.Sizes['1'];
     
-    $scope.handleGenerate = function () {
-        if($scope.useCoor == 'true' && !checkCoor()) 
-        {
-            sendAlert("error","coordinations incorrect!")
-            return;
-        }
-        toggleProcessView($scope);
-        var {XD,YD} = chinkeSizeGenerator($scope.selectedSize);
-        
+    $scope.handleGenerate = async function ($event) {
+        closeAlert();
+        toggleProcessView();
+        await setTimeout(()=> {
+            var {XD,YD} = chinkeSizeGenerator($scope.selectedSize);
+            if($scope.useCoor == 'true' && !checkCoor()) 
+            {
 
-        var dataObject = {
-            XD : XD,
-            YD : YD,
-            useCoor : $scope.useCoor,
-            coordinations :  $scope.coordinations,
-            image : image.getImagePath()
-        }
+                sendAlert("error",'coordinations incorrect!',false,` possible values are { X':${$scope.coordinations.x1-(XD-1)} or X':${$scope.coordinations.x1+(XD-1)} ,
+                Z':${$scope.coordinations.y1-(YD-1)} or Z':${$scope.coordinations.y1+(YD-1)}}`)
+                toggleProcessView();
+                return;
+            }
+            
+            
+            
 
-        processing_step_one(dataObject,$scope);
-        
+            var dataObject = {
+                XD : XD,
+                YD : YD,
+                useCoor : $scope.useCoor,
+                coordinations :  $scope.coordinations,
+                image : image.getImagePath()
+            }
+
+            processing_step_one(dataObject,$scope,$event.target);
+        }, 500);
+
+        $scope.$apply;
     }
     $scope.appliedClass = function(v){
         if(v=='true')
@@ -220,29 +224,29 @@ app.controller('editCtrl', function($scope,$rootScope,$location,$log,image ,Cons
         y1: '',
         y2: '',
       };
-    function chinkeSizeGenerator(v)
-    {
-        switch (v) {
-            case Constants.Sizes['1']:
-                return {XD : 128,
-                YD : 128}
-                break;
-            case Constants.Sizes['2']:
-                return {XD : 256,
-                    YD : 256}
-                break;
-            case Constants.Sizes['3']:
-                return {XD : 384,
-                    YD : 384}
-                break;
-            case Constants.Sizes['4']:
-                return {XD : 512,
-                    YD : 256}
-                break;
-            default:
-                break;
-        }
-    }
+      function chinkeSizeGenerator(v)
+      {
+          switch (v) {
+              case Constants.Sizes['1']:
+                  return {XD : 128,
+                  YD : 128}
+                  break;
+              case Constants.Sizes['2']:
+                  return {XD : 256,
+                      YD : 256}
+                  break;
+              case Constants.Sizes['3']:
+                  return {XD : 384,
+                      YD : 384}
+                  break;
+              case Constants.Sizes['4']:
+                  return {XD : 512,
+                      YD : 256}
+                  break;
+              default:
+                  break;
+          }
+      }
     function getImageSize(imgSrc) {
         var imgLoader = new Image(); // create a new image object
    
@@ -302,6 +306,12 @@ app.controller('editCtrl', function($scope,$rootScope,$location,$log,image ,Cons
     $scope.setSelectedSize = function (v) 
     {
         $scope.selectedSize = Constants.Sizes[v];
+        if(v != 1)
+        {
+            sendAlert("alert" , "Higher map sizes will require more performance, you may notice some lag");
+        }else{
+            closeAlert();
+        }
     }
 
     $scope.changeChecker  = function ()
@@ -341,8 +351,6 @@ var imageProcessing = function(rects, data ,img, dominationByIteration = true)
         canvas.width  = (RectSizeCoef * data.XD);//canvas.offsetWidth;
         canvas.height = (RectSizeCoef * data.YD) ;//canvas.offsetHeight;
         ctx.drawImage(img,0,0,canvas.width,canvas.height);
-        var progressbar = document.getElementById("progressBar"); 
-        var progressIndicator = document.getElementById('progressBarIndicator');
         var iteration = 0;
         var max = data.XD * data.YD;
         for (let i = 0; i < data.XD; i++) {
@@ -352,8 +360,7 @@ var imageProcessing = function(rects, data ,img, dominationByIteration = true)
                         resolve(rects);
                     }
                     iteration++;
-                    progressIndicator.innerHTML = Math.floor(iteration*100 /max) + '%';
-                    progressbar.style.width = Math.floor(iteration*100 /max)+"%";
+                    
                     var imgData = ctx.getImageData(canvas.width/data.XD*i,canvas.height/ data.YD*j,canvas.width/data.XD,canvas.height/ data.YD);
                     var colorsOfSection = new Array();
                     const counts = {};
@@ -381,26 +388,29 @@ var imageProcessing = function(rects, data ,img, dominationByIteration = true)
  });
 }
 
-function toggleProcessView($scope)
+function toggleProcessView()
 {
-    $scope.disable = !$scope.disable;
-    $scope.showProgress = !$scope.showProgress;
-    if($scope.actionName == 'Generate')
+    var GenButton = document.getElementById("generate");
+    if(GenButton.innerText == 'Generate')
     {
-        $scope.actionName = 'Processing...';
+        GenButton.disable = true;
+        GenButton.style.cursor = "wait";
+        GenButton.innerText = 'Processing...';
     }else
     {
-        $scope.actionName = 'Generate';
+        GenButton.disable = false;
+        GenButton.style.cursor = "pointer"
+        GenButton.innerText = 'Generate';
     }
     
     
-    $scope.$apply;
+    
 }
 function SendingData(data){
     ipcRenderer.send('render-data:add', data);
 }
 
-function processing_step_one(data , $scope)
+function processing_step_one(data , $scope , btn)
 {
     
     let img = new Image();
@@ -410,12 +420,11 @@ function processing_step_one(data , $scope)
         var rects = [];
 
         imageProcessing(rects,data,img).then((result)=> {
-            toggleProcessView($scope);
+            toggleProcessView();
             data.rects = result;
             SendingData(data);
-            console.log(ItemsRequired)
         }).catch((err) => {
-            toggleProcessView($scope);
+            toggleProcessView();
             console.log(err);
         })
         

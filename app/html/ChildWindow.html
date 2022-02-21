@@ -16,7 +16,7 @@
     <header ng-controller="headCtrl">
       <div class="logoSection">
         <img src="../images/logo.png" class="logoImg">
-        <h1 class="title" >Art Map Generator</h1>
+        <h1 id="titleTop" class="title" >Art Map Generator</h1>
         <h5>{{version}}</h5>
       </div>
       <div class="coordinations">
@@ -27,14 +27,18 @@
         <div class="option o1" ng-click="close()">&#x2716;</div>
         <div class="option o2" ng-click="maximize()">&#x1f5d6;</div>
         <div class="option o3" ng-click="minimize()">&#x1f5d5;</div>
-        <button title="Buy as a coffee" class="donateBtn"  ng-click="donate()">
+        <button title="Buy as a coffee" class="donateBtn"  onclick="donate()">
           <i class="fas fa-donate"></i>
           <div>Donate</div>
+        </button>
+        <button title="Help" class="donateBtn"  onclick="help()">
+          <i class="far fa-question-circle"></i>
         </button>
       </div>
       <div id='alert' class="alert">
         <span class="fas fa-exclamation-circle"></span>
         <span id='alert_msg' class="msg">Warning : This is a warning alert!</span>
+        <span id='alert_sec' class="msg">Possible values are {def fef fee fefe}</span>
         <span class="close-btn" onclick="closeAlert()">
           <span class="fas fa-times"></span>
         </span>
@@ -71,9 +75,10 @@
 
             <canvas id="canvas"></canvas> 
             <div class="helpSection">
-              <Button title="How to use ArtMap" class="helpSectionBtn helpBtn">
-                <i class="far fa-question-circle"></i>
-                <div>Help</div>
+              <Button title="Download the rendered picture" class="helpSectionBtn helpBtn" onclick="download()">
+                <!-- <i class="far fa-question-circle"></i> -->
+                <i class="fas fa-download"></i>
+                <div>Image</div>
               </Button>
               <Button title="Reset image zoom and transition" class="helpSectionBtn resetBtn" onclick="reset()">
                 <i class="far fa-window-restore"></i>
@@ -125,18 +130,7 @@
                       3021
                     </div>
                   </div>
-                  <div id="ItemsShower">
-                    <div class="itemsRow">
-                      <span id="ItemId">2</span>
-                      <i id="ItemIcon" class="icon-minecraft icon-minecraft-cyan-concrete"></i>
-                      <div id="itemName">
-                        Cyan Concrete
-                      </div>
-                    </div>
-                    <div class="NumberRow">
-                      3021
-                    </div>
-                  </div>
+                  
                 </div>
              
               
@@ -149,13 +143,13 @@
             <label  for="switch_1"></label>
           </span>
           <span id="standardAdvance" class='btn btn-1 hide'>
-            <input type="checkbox" class="standardAdvance" onclick="SwitchColorsType(this.checked)" id="switch_2" checked>
+            <input type="checkbox"  class="standardAdvance" onclick="SwitchColorsType(this.checked)" id="switch_2" checked>
             <label  for="switch_2"></label>
           </span>
           
           
           <Button title="Let a bot do your job" class="bot-btn" onclick="ShowBotSection()">
-            <span>BotCraft</span>
+            <span >BotCraft</span>
             <span class="fas fa-robot"></span>
           </Button>
         </div>

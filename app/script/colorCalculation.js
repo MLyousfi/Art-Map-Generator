@@ -128,15 +128,27 @@ function GetClosest(color, advanced = false)
     var minDiff = 1000;
     var index=0;
     var ColorsData = advanced ? AdvancedColors : MineCraftColors;
-    for (let i = 0; i < ColorsData.length; i++) {
+    let i = 0;
+
+
+    while (i < ColorsData.length) {
         let currColor = StringColors(ColorsData[i].color);
         if(colorDifference(color[0],color[1],color[2],currColor[0],currColor[1],currColor[2]) < minDiff)
         {
             minDiff = colorDifference(color[0],color[1],color[2],currColor[0],currColor[1],currColor[2]);
             index = i;
         }
-        
+        i++;
     }
+    // for (let i = 0; i < ColorsData.length; i++) {
+    //     let currColor = StringColors(ColorsData[i].color);
+    //     if(colorDifference(color[0],color[1],color[2],currColor[0],currColor[1],currColor[2]) < minDiff)
+    //     {
+    //         minDiff = colorDifference(color[0],color[1],color[2],currColor[0],currColor[1],currColor[2]);
+    //         index = i;
+    //     }
+        
+    // }
     // const found = ItemsRequired.findIndex(el => el.itemName === ColorsData[index].name);
     // if(found > -1) {
     //     ItemsRequired[found].number ++;

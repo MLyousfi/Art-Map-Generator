@@ -1,6 +1,6 @@
 
 var app = angular.module('app', ['ngRoute']);
-
+// const {getPrimes} = require("./workers/primes/index");
 const { remote ,ipcRenderer } = require('electron');
 const { globalEval } = require('jquery');
 var globalData = null;
@@ -91,7 +91,7 @@ function draw (){
   if(selectedOldRect)
   {
     ctx.strokeStyle = 'rgba(0,255,0,01)';
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 2;
       ctx.fillStyle = useMineCraftColor ? useAdvancedColors? selectedOldRect.c3 : selectedOldRect.c2 : selectedOldRect.c1;
       ctx.fillRect(selectedOldRect.x-hoveredRectOffset/2,selectedOldRect.y-hoveredRectOffset/2,selectedOldRect.w-strokeWidth+hoveredRectOffset,selectedOldRect.h-strokeWidth+hoveredRectOffset);
       ctx.strokeRect(selectedOldRect.x-hoveredRectOffset/2,selectedOldRect.y-hoveredRectOffset/2,selectedOldRect.w+hoveredRectOffset,selectedOldRect.h+hoveredRectOffset)
@@ -158,7 +158,39 @@ function getTransformedPoint(x, y) {
   return { x: ((C_Width * x * invertedScaleX)/rect.width) - cameraOffset.x ,
   y: ((C_Height * y * invertedScaleY)/rect.height) - cameraOffset.y };
 }
-
+function ShowCoordination(x,y)
+{
+  if(globalData.useCoor == 'true')
+    {
+      if(globalData.coordinations.x1-globalData.coordinations.x2>0)
+      {
+        if(globalData.coordinations.y1-globalData.coordinations.y2>0)
+        {
+          var X_coor = globalData.coordinations.x1 - x/RectSizeCoef; 
+          var Y_coor = globalData.coordinations.y1 - y/RectSizeCoef; 
+        }else
+        {
+          var X_coor = globalData.coordinations.x1 - x/RectSizeCoef; 
+          var Y_coor = globalData.coordinations.y1 + y/RectSizeCoef; 
+        }
+      }else{
+        if(globalData.coordinations.y1-globalData.coordinations.y2>0)
+        {
+          var X_coor = globalData.coordinations.x1 + x/RectSizeCoef; 
+          var Y_coor = globalData.coordinations.y1 - y/RectSizeCoef; 
+        }else
+        {
+          var X_coor = globalData.coordinations.x1 + x/RectSizeCoef; 
+          var Y_coor = globalData.coordinations.y1 + y/RectSizeCoef; 
+        }
+      }
+      
+      Coortext.innerHTML = `X : ${X_coor} , Y : ${Y_coor}`;
+    }else
+    {
+      Coortext.innerHTML = `X : ${x/RectSizeCoef} , Y : ${y/RectSizeCoef}`;
+    }
+}
 function onPointerDown(e)
 {
   if(e.button === 0)
@@ -169,15 +201,7 @@ function onPointerDown(e)
     y = Math.floor(y / RectSizeCoef)* RectSizeCoef;
     selectedOldRect = GetDrawR(globalData.rects ,x,y );
     
-    if(globalData.useCoor == 'true')
-    {
-      var X_coor = globalData.coordinations.x1 - x/RectSizeCoef; 
-      var Y_coor = globalData.coordinations.y1 - y/RectSizeCoef; 
-      Coortext.innerHTML = `X : ${X_coor} , Y : ${Y_coor}`;
-    }else
-    {
-      Coortext.innerHTML = `X : ${x/RectSizeCoef} , Y : ${y/RectSizeCoef}`;
-    }
+    ShowCoordination(x,y);
     if(useMineCraftColor)
     {
       if(useAdvancedColors)
@@ -207,9 +231,17 @@ function onPointerDown(e)
     
 
 }
+const download = () => {
+  const link = document.createElement('a');
+  link.download = 'download.png';
+  link.href = canvas.toDataURL();
+  link.click();
+  link.delete;
+}
 
-//dev only 
+
 const reset = () => {
+  
   cameraZoom = 1;
   cameraOffset = { x : 0 , y : 0};
 }
@@ -355,7 +387,35 @@ function adjustZoom(e,zoomAmount, zoomFactor)
         //console.log(X_beforeZooming - X_afterZooming , Y_beforeZooming - Y_afterZooming)
     }
 }
+function AdjustSelectedRect(x,y)
+{
+  if(selectedOldRect.x === C_Width-10 && x === 10) x = 0;
+  if(selectedOldRect.x === 0 && x === -10) x = 0;  
+  if(selectedOldRect.y === C_Height-10 && y === 10) y = 0;
+  if(selectedOldRect.y === 0 && y === -10) y = 0;
+  selectedOldRect = GetDrawR(globalData.rects ,selectedOldRect.x+x,selectedOldRect.y+y );
+  ShowCoordination(selectedOldRect.x,selectedOldRect.y);
+}
 
+function ArrowSwitcher(code)
+{
+  switch (code) {
+    case 'ArrowUp':
+      AdjustSelectedRect(0,-10);
+      break;
+    case 'ArrowRight':
+      AdjustSelectedRect(10,0);
+      break;
+    case 'ArrowDown':
+      AdjustSelectedRect(0,10);
+      break;
+    case 'ArrowLeft':
+      AdjustSelectedRect(-10,0);
+      break;
+    default:
+      break;
+  }
+}
 canvas.addEventListener('mousedown', onPointerDown)
 canvas.addEventListener('touchstart', (e) => handleTouch(e, onPointerDown))
 canvas.addEventListener('mouseup', onPointerUp)
@@ -363,7 +423,9 @@ canvas.addEventListener('touchend',  (e) => handleTouch(e, onPointerUp))
 canvas.addEventListener('mousemove', onPointerMove)
 canvas.addEventListener('touchmove', (e) => handleTouch(e, onPointerMove))
 canvas.addEventListener( 'wheel', (e) => adjustZoom(e,e.deltaY*SCROLL_SENSITIVITY))
-
+document.onkeydown = function (e){
+  ArrowSwitcher(e.code);
+}
 
 
 
@@ -386,7 +448,7 @@ function changeColors(checked)
   if(!checked && useMineCraftColor == false)
   {
     useMineCraftColor = true;
-    draw();
+    //draw();
     standardAdvance.classList.remove("hide");
     if(StandardItemsRequired.length === 0) ItemsCalculation(true);
 
@@ -395,7 +457,7 @@ function changeColors(checked)
     
     ChestPanel.style.transform="scale(0)"; 
     useMineCraftColor = false;
-    draw();
+    //draw();
     standardAdvance.classList.add("hide");
 }
 }
@@ -415,17 +477,25 @@ function changeColors(checked)
   
   function SwitchColorsType(checked)
   {
+    
     useAdvancedColors = !checked;
     if(useAdvancedColors)
     {
+      var checkbox = document.getElementById("standardAdvance");
+      checkbox.style.cursor = "wait";
+      checked.disable = true;
       if(!hasAdvancedColors) PopulatingAdvancedColors();
-      if(AdvancedItemsRequired.length === 0)
-      {
-        ItemsCalculation(false);
-      }else
-      {
-        UpdateViewList(false);
-      } 
+      
+        
+        if(AdvancedItemsRequired.length === 0)
+        {
+          ItemsCalculation(false);
+        }else
+        {
+          UpdateViewList(false);
+        } 
+      
+      
     }else{
       if(StandardItemsRequired.length === 0)
       {
@@ -434,23 +504,26 @@ function changeColors(checked)
         UpdateViewList(true);
       }
     }
-      
-    draw();
+    
+    //draw();
   }
   var useAdvancedColors = false;
   var hasAdvancedColors = false;
+  var titleTop = document.getElementById('titleTop')
+  
   function PopulatingAdvancedColors()
   {
-    document.body.style.cursor = "wait";
-    for (const rect of globalData.rects)
-    {
+    
+    
+    globalData.rects.map((rect, index) => {
       if(!rect.hasOwnProperty('c3'))
       {
         rect.c3 = GetClosest(rect.c1 ,true);
       }
-    }
+      
+    })
+    
     hasAdvancedColors = true;
-    document.body.style.cursor = "default";
   }
   
   const createHashFromShallow = anObject => {
@@ -472,7 +545,6 @@ function changeColors(checked)
       element.classList.remove('show');
       element.classList.add('hide');
   }
-
   var StandardItemsRequired = [];
   var AdvancedItemsRequired = [];
   function ItemsCalculation(standard)
@@ -480,19 +552,26 @@ function changeColors(checked)
     const colorsdata = standard? MineCraftColors : AdvancedColors;
     const prop = standard? 'c2' : 'c3';
     const ItemsRequired = standard? StandardItemsRequired : AdvancedItemsRequired;
+    
+    
+
     for (let i = 0; i < globalData.rects.length; i++) {
-      const color = globalData.rects[i][prop];
-      const found = ItemsRequired.findIndex(el => el.itemName === colorsdata[colorsdata.findIndex(c => c.color === color)].name);
-      if(found > -1) {
-          ItemsRequired[found].number ++;
-      }
-      else
-      {
-        
-        ItemsRequired.push({ number : 1, itemName: colorsdata[colorsdata.findIndex(c => c.color === color)].name });
-      }
+      (function loop() {
+        const color = globalData.rects[i][prop];
+        const found = ItemsRequired.findIndex(el => el.itemName === colorsdata[colorsdata.findIndex(c => c.color === color)].name);
+        if(found > -1) {
+            ItemsRequired[found].number ++;
+        }
+        else
+        {
+          ItemsRequired.push({ number : 1, itemName: colorsdata[colorsdata.findIndex(c => c.color === color)].name });
+        }
+      })(i);
+      
       
     }
+
+    ItemsRequired.sort((a, b) => (a.number < b.number) ? 1 : -1)
 
     if(standard)
     {
@@ -544,7 +623,6 @@ function changeColors(checked)
         ItemTableContent.appendChild(CreateRow(i+1,AdvancedItemsRequired[i].itemName,AdvancedItemsRequired[i].number))
       }
     }
-    console.log(standard, "hedere")
   }
 
  
@@ -605,151 +683,3 @@ app.controller('headCtrl', function($scope) {
 
 
 
-//#region events
-
-    // var isMaximized = false;
-    // var selectedOldRect = {};
-    // var Coortext = document.getElementById("coor");
-    // var itemName = document.getElementById("itemName");
-    // var ItemIcon = document.getElementById('ItemIcon');
-  
-    // canvas.onclick = function (e) {
-      
-    //   if(selectedOldRect)
-    //   {
-    //     ctx.clearRect(selectedOldRect.x,selectedOldRect.y,selectedOldRect.w-strokeWidth,selectedOldRect.h-strokeWidth)
-    //     ctx.fillStyle = useMineCraftColor ? useAdvancedColors? selectedOldRect.c3 : selectedOldRect.c2 : selectedOldRect.c1;
-    //     ctx.fillRect(selectedOldRect.x,selectedOldRect.y,selectedOldRect.w-strokeWidth,selectedOldRect.h-strokeWidth);
-        
-    //   }
-    //   var {x,y} = getMousePos(this,e);
-      
-      
-    //   x = Math.floor(x/RectSizeCoef) * RectSizeCoef;
-    //   y = Math.floor(y / RectSizeCoef)* RectSizeCoef;
-      
-      
-    //   ctx.fillStyle = 'rgba(0,255,0,01)'; 
-    //   ctx.fillRect(x,y,RectSizeCoef-strokeWidth,RectSizeCoef-strokeWidth);
-        
-    //   selectedOldRect = GetDrawR(globalData.rects ,x,y );
-
-    //   if(globalData.useCoor == 'true')
-    //   {
-    //     var X_coor = globalData.coordinations.x1 - x/RectSizeCoef; 
-    //     var Y_coor = globalData.coordinations.y1 - y/RectSizeCoef; 
-    //     Coortext.innerHTML = `X : ${X_coor} , Y : ${Y_coor}`;
-    //   }else
-    //   {
-    //     Coortext.innerHTML = `X : ${x/RectSizeCoef} , Y : ${y/RectSizeCoef}`;
-    //   }
-    //   if(useMineCraftColor)
-    //   {
-    //     if(useAdvancedColors)
-    //     {
-    //       itemName.innerHTML = detectItemsName(selectedOldRect.c3);
-    //     }
-    //     else
-    //     {
-    //       itemName.innerHTML = detectItemsName(selectedOldRect.c2);
-    //     }
-        
-    //     ChestPanel.style.transform="scale(1)"; 
-    //     ItemIcon.classList.remove(ItemIcon.classList[1]);
-    //     ItemIcon.classList.add(getIconClassName(itemName.textContent));
-    //   }
-    // }
-
-    // var canDrag = false;
-    // canvas.onmousedown = (e) => {
-    //   if(e.button !== 2) return;
-    //   canDrag = true;
-    //   console.log(getMousePos(e.target,e))
-    // }
-     
-
-    // var oldRect = {};
-    // var lastX = 0, lasty= 0;
-    // canvas.onmousemove = function(e) {
-    //     if(!canDrag)
-    //     {
-    //       this.style.cursor = 'crosshair';
-    //     }
-    //     else{
-    //       this.style.cursor = 'grabbing';
-    //     } 
-    //     if(oldRect && createHashFromShallow(oldRect) !== createHashFromShallow(selectedOldRect))
-    //     {
-    //       ctx.clearRect(oldRect.x,oldRect.y,oldRect.w-strokeWidth,oldRect.h-strokeWidth)
-    //       ctx.fillStyle = useMineCraftColor ? useAdvancedColors? oldRect.c3 : oldRect.c2 : oldRect.c1;
-    //       ctx.fillRect(oldRect.x,oldRect.y,oldRect.w-strokeWidth,oldRect.h-strokeWidth);
-          
-    //     }
-    //     var {x,y} = getMousePos(this,e);
-    //     x = Math.floor(x/RectSizeCoef) * RectSizeCoef ;
-    //     y = Math.floor(y / RectSizeCoef)* RectSizeCoef;
-        
-    //     lastX = x;
-    //     lasty = y;
-    //     if(createHashFromShallow(GetDrawR(globalData.rects ,x,y )) !== createHashFromShallow(selectedOldRect))
-    //     {
-    //       ctx.fillStyle = 'rgba(255,0,0,0.3)'; 
-    //       ctx.fillRect(x,y,RectSizeCoef-strokeWidth,RectSizeCoef-strokeWidth);
-          
-    //     }
-    //     oldRect = GetDrawR(globalData.rects ,x,y );
-    //   }
-
-    //   var zoomFactor = 1.5;
-      
-
-    //   zooming = (action) => {
-    //           const mousex = lastX;
-    //           const mousey = lasty;
-    //     var visibleWidth = (RectSizeCoef * globalData.XD) / scale;
-        
-    //     var visibleHeight = (RectSizeCoef * globalData.YD) / scale;
-        
-    //     if(action == 'minus' && visibleWidth == (RectSizeCoef * globalData.XD))
-    //     {
-    //       return;
-    //     }else if (action == 'plus' && visibleWidth ==(RectSizeCoef * globalData.XD) / Math.pow(1.5,3))
-    //     {
-    //       return;
-    //     }
-    //     else
-    //     {
-    //       ctx.translate(-originx, -originy);
-    //       if(action == 'plus')
-    //       {
-    //         zoomFactor = 1.5;
-    //       }
-    //       else
-    //       {
-    //         zoomFactor = 1 / 1.5;
-            
-    //       }
-    //       scale *= zoomFactor;
-    //       ctx.translate(originx, originy);
-    //      originx -= mousex/(scale*zoomFactor) - mousex/scale;
-    //       originy -= mousey/(scale*zoomFactor) - mousey/scale;
-    //       ctx.scale(zoomFactor, zoomFactor);
-    //       console.log('ize ' , (RectSizeCoef * globalData.YD) / scale) 
-    //       draw();
-    //     }
-        
-    //   }
-
-
-    //   document.onkeydown = function (e){
-    //     if (e.ctrlKey && e.keyCode == '109')
-    //     {
-    //       zooming('minus')
-    //     } else if (e.ctrlKey && e.keyCode == '107')
-    //     {
-    //       zooming('plus')
-    //     }
-    //   }
-
-
-//#endregion

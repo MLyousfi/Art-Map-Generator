@@ -1,6 +1,6 @@
 {
   "name": "art-map-generator",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A solution to generate MapArt for Minecraft",
   "main": "app/main.js",
   "scripts": {
@@ -30,11 +30,7 @@
     "electron-notarize": "^1.1.1",
     "electron-updater": "^4.3.9",
     "jquery": "^3.6.0",
-    "mineflayer": "^3.11.2",
-    "mineflayer-pathfinder": "^1.8.0",
-    "mineflayer-web-inventory": "^1.6.3",
-    "shell": "^0.8.4",
-    "uaup-js": "^0.0.22"
+    "shell": "^0.8.4"
   },
   "devDependencies": {
     "electron": "^12.0.0",

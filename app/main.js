@@ -5,6 +5,7 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const { dialog } = require('electron')
 
+
 autoUpdater.logger = log;
 
 autoUpdater.logger.transports.file.level = 'info';
@@ -13,7 +14,7 @@ log.info('App starting...');
 autoUpdater.autoInstallOnAppQuit = true;
 const {app ,contextBridge , BrowserWindow,Menu , ipcMain} = electron;
 
-let mainWindow,secondWindow;
+let mainWindow,secondWindow,helpWindow;
 let boot = () => {
         mainWindow = new BrowserWindow({
             width : 800,
@@ -28,7 +29,7 @@ let boot = () => {
     
         //load html file into the window
         mainWindow.loadFile('./app/html/index.html')
-        //mainWindow.webContents.openDevTools();
+        mainWindow.webContents.openDevTools();
         mainWindow.on('closed',function(){
             app.quit();
         })
@@ -85,7 +86,7 @@ let createSecondWindow = (data) =>
         }
     });
     secondWindow.loadFile('./app/html/ChildWindow.html');
-    //secondWindow.webContents.openDevTools();
+    secondWindow.webContents.openDevTools();
     secondWindow.once('ready-to-show', () => {
       secondWindow.show()
       secondWindow.maximize();
@@ -97,6 +98,8 @@ let createSecondWindow = (data) =>
 
     
 }
+  
+
 
 //-------------------------------------------------------------------
 // Auto updates

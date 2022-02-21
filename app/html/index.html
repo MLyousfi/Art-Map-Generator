@@ -25,14 +25,21 @@
         <div class="option o1" ng-click="close()">&#x2716;</div>
         <div class="option o2" ng-click="maximize()">&#x1f5d6;</div>
         <div class="option o3" ng-click="minimize()">&#x1f5d5;</div>
-        <button title="Buy as a coffee" class="donateBtn"  ng-click="donate()">
+        <button title="Buy as a coffee" class="donateBtn" onclick="donate()" >
           <i class="fas fa-donate"></i>
           <div>Donate</div>
+        </button>
+        <button title="Help" class="donateBtn"  onclick="help()">
+          <i class="far fa-question-circle"></i>
         </button>
       </div>
       <div id='alert' class="alert">
         <span class="fas fa-exclamation-circle"></span>
-        <span id='alert_msg' class="msg">Warning : This is a warning alert!</span>
+        <div >
+          <span id='alert_msg' class="msg">Warning : This is a warning alert!</span>
+          <span id='alert_sec' class="sec"></span>
+        </div>
+        
         <span class="close-btn" onclick="closeAlert()">
           <span class="fas fa-times"></span>
         </span>

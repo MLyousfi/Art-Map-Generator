@@ -27,30 +27,29 @@
                 <input type="radio" ng-model="useCoor" value="false" name="size" id="large">
                 <label for="large">simple</label>
             </div>
-            <div id="coorBox"  ng-class="appliedClass(useCoor)" >
-                <div id="inputSection" ng-class="appliedClass(useCoor)">
-                    <div id="inputContainer" style="justify-content: flex-start;">
-                        <input type="number" id="x1" ng-model="coordinations.x1"> 
-                        <p style="padding-left: 5px;">: X</p>
+            <div id="coorViewer" ng-class="appliedClass(useCoor)">
+                <div id="coorContainer_start">
+                    <input placeholder="X" type="number" id="x1" ng-model="coordinations.x1"> 
                     </div>
-                    <div id="inputContainer" style="justify-content: flex-end;">
-                        <p style="padding-right: 5px;">Y :</p>
-                        <input type="number" id="y1" ng-model="coordinations.y1">
+                <div id="coorContainer_center" >
+                    <div id="coorContainerCenter_start">
+                        <input placeholder="Z" type="number" id="y1" ng-model="coordinations.y1">
+                        
+                    </div>
+                    <div id="coorContainerCenter_center">
+                        <div id="coorBox"></div>
+                    </div>
+                    <div id="coorContainerCenter_end">
+                        <input placeholder="X'" type="number" id="x2" ng-model="coordinations.x2"> 
                         
                     </div>
                 </div>
-                <div id="inputSection" ng-class="appliedClass(useCoor)" >
-                    <div id="inputContainer" style="justify-content: flex-start;">
-                        <input type="number" id="x2" ng-model="coordinations.x2"> 
-                        <p style="padding-left: 5px;">: X'</p>
-                    </div>
-                    <div id="inputContainer" style="justify-content: flex-end;">
-                        <p style="padding-right: 5px;">Y' :</p>
-                        <input type="number" id="y2" ng-model="coordinations.y2">
-                        
-                    </div>
+                <div id="coorContainer_end" >
+                        <input placeholder="Z'" type="number" id="y2" ng-model="coordinations.y2">
+                    
                 </div>
             </div>
+            
             <div class="dropdownConainter">
                 <p style="margin-top: 10px;">Chunks size : </p>
                 <div class="dropdown" >
@@ -63,23 +62,18 @@
                     
                     <div class="dropdown-list">
                         <div class="dropdown-list__item" ng-click="setSelectedSize(1)">128 X 128</div>
-                        <div class="dropdown-list__item" ng-click="setSelectedSize(2)">256 X 256</div>
-                        <div class="dropdown-list__item" ng-click="setSelectedSize(3)">384 X 384</div>
-                        <div class="dropdown-list__item" ng-click="setSelectedSize(4)">512 X 256</div>
+                        <div class="dropdown-list__item" ng-click="setSelectedSize(2)">256 X 256 <i title="Higher map sizes will require more performance" class="fas fa-exclamation-triangle"></i></div>
+                        <div class="dropdown-list__item" ng-click="setSelectedSize(3)">384 X 384 <i title="Higher map sizes will require more performance" class="fas fa-exclamation-triangle"></i></div>
+                        <div class="dropdown-list__item" ng-click="setSelectedSize(4)">512 X 256 <i title="Higher map sizes will require more performance" class="fas fa-exclamation-triangle"></i></div>
                     </div>
                 </div>
             </div>
             
             <div class="actionbtn">
-                <div class="progress" ng-show='showProgress'>
-                    <div class="progressContainer">
-                        <div id='progressBar' class="progressBar"></div>
-                    </div>
-                    <div id='progressBarIndicator' class="progressBarIndicator"></div>
-                </div>
+                
                
-                <button id="generate" ng-disabled="disable" ng-bind ="actionName" ng-click="handleGenerate()">
-                    
+                <button id="generate" ng-click="handleGenerate($event)">
+                    Generate
                 </button>
             </div>
         </div>
